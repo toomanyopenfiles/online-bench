@@ -23,3 +23,5 @@ online-bench是一个高性能、分布式的企业级线上引流压测平台�
 
 ## 系统架构：
 
+![alt text](https://raw.githubusercontent.com/toomanyopenfiles/online-bench/master/docs/arch.png "architecture")
+
