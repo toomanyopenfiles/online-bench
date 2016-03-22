@@ -2,10 +2,10 @@
 
 online-bench是一个高性能、分布式的企业级线上引流压测平台，它能够方便的将线上服务的流量引流到压测集群，并具备高度可扩展性。引流方面，相比tcpcopy，它更加便于部署和控制流量。压测方面，相比jmeter/http_load等单机版压测工具，online-bench是一个分布式压测平台，压测集群可以方便的水平伸缩。压测数据的收集支持open-falcon和jmeter jtl，可以通过open-falcon或jmeter图形化查看压测结果。
 
-## 社区：
+## 社区
 - QQ群：287987089
 
-## 主要功能：
+## 主要功能
 - 简单、可配置的压测界面
 	- 主控机web界面支持灵活控制线上服务节点的流量录制开关、录制规则等	
 	- 主控机web界面配置压测任务，下发任务到起压机
@@ -21,7 +21,20 @@ online-bench是一个高性能、分布式的企业级线上引流压测平台�
 - 压测框架方便扩展及定制
 	- 线上流量录制模块，总控模块、起压模块都通过restful API进行通讯，每个模块可以根据需求情况定制开发甚至替换
 
-## 系统架构：
+## 系统架构
+![architecture](https://raw.githubusercontent.com/toomanyopenfiles/online-bench/master/docs/arch.png "architecture")
 
-![alt text](https://raw.githubusercontent.com/toomanyopenfiles/online-bench/master/docs/arch.png "architecture")
+## 快速开始
+
+## 模块功能
+- __线上流量录制模块__
+支持以埋点或者filter的方式将指定服务的流量“录制”下来，这里所谓的“录制”就是在请求到达线上服务器时，将请求流量复制并转发给redis一份。
+redis内部存储格式：
+key:testId_serviceName_time	value:list
+list内部的每个元素存储一次请求信息，这个信息应该包含一次请求的所有上下文信息。
+
+考虑到引流过程不能影响线上服务的性能，所以这个复制转发过程是纯异步、单线程消费的，并且会有严格的流量控制策略。默认线上服务是关闭流量录制的，只有在总控通知到某个线上节点才能开启，并且有次数限制，每个节点每次开启最多录制10w条请求。
+
+- __总控模块__
+- __起压模块__
 
